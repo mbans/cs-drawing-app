@@ -1,12 +1,13 @@
 package com.mbans.sandbox.cs.drawingapp;
 
-public class TestConsolePrinter extends ConsolePrinter {
+import com.mbans.sandbox.cs.drawingapp.printers.Printer;
+
+public class TestPrinter implements Printer {
 
     private boolean didPrint = false;
 
     @Override
     public void print(final StringBuilder sb) {
-        super.print(sb);
         this.didPrint = true;
     }
 
