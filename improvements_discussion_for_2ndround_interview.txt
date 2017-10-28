@@ -1,0 +1,69 @@
+-------------------------------------------
+Why did you design it in the way you have?
+-------------------------------------------
+
+Main Components:
+* Canvas (View)
+
+* Components that can be applied to a canvas (model kind of)
+
+* Controller that will issue commands (create/update model which will update view)
+
+===================
+1. Canvas
+===================
+a. How can it be represented -- char[][]
+b. Does it need to know about any components that will be applied to it? <-- No, it just needs to have it's pixels updated, agnostic to the underlying shapes etc being applied
+c. Main function is to be able to 'draw' itself to standard out
+
+Improvements
+a. Introduce a 'printer' interface that can be swapped in and out.
+   This can print to standard out or file etc
+   Used as part of the 'draw'
+
+b. Introduce possibly a 'decorator' class around the Canvas that deals with the printing of the perimeter
+   Currently the perimeter pakes up part of the canvas, as a result we need some array arithmatic to be aware of this
+   i.e. isPermiterRow etc
+
+c. Introduce an Interface over the Canvas to support mocking during testing, also to support the swaping of different types of Canvas (maybe)
+
+
+===================
+2. DrawableComponent / Line / Rectangle
+===================
+
+a. Encapsulate common functionality for items that can be drawn onto a Canvas, this is the 'draw()' method
+b. The specifics / rules around how to create a shape are delegated via the 'getPixels()' method.
+c. Should the 'drawable component' be aware of the Canvas?
+   I decided YES, as a DrawableComponent cannot exist WITHOUT a canvas, then it should be aware of the Canvas in which is will be drawn onto.
+
+
+===================
+3. BucketFill
+===================
+a. Like all shapes the 'getPixels()' represents the pixels (point/symbol) used to represent this 'drawable component'
+b. Keep track of points currently visited as to prevent revisiting
+c. complexity
+    At worst case it has to fill EVERY single pixel so it will be 4N if n is the total number of pixels
+    However it will return immediately as you have already 'visited' the previous pixel so we don't have any duplication
+
+====================
+Drawing App
+===================
+
+a. Controller/entry point of the app.
+b. Executes a user's 'command' and build's the çomponent, using a çommand pattern like behavioural pattern
+
+IMPROVEMENTS
+a. Possibly use more of a Factory that returns a command which can be executed.
+   This way we dont need the switch within the DrawingApp
+   Each command knows how to execute itself
+   Each command would call back to a method on the Drawing app (pass in as a lambda function possibly)
+
+===================
+TESTS
+===================
+
+1. Happy with the framework, visualising the tests help
+
+
