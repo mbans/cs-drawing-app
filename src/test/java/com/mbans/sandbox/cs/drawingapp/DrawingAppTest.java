@@ -13,7 +13,7 @@ public class DrawingAppTest {
     @Before
     public void setup() {
         app = new DrawingApp();
-        app.createCanvas(5,5);
+        app.setCanvas(new Canvas(5,5));
     }
 
     @Test

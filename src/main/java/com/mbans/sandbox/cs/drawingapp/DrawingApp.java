@@ -1,13 +1,7 @@
 package com.mbans.sandbox.cs.drawingapp;
 
 
-import java.awt.*;
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.Scanner;
-
-import static com.mbans.sandbox.cs.drawingapp.AppFeature.getFeatureType;
-import static java.lang.Integer.parseInt;
 
 /**
  * Drawing application that allows users to issue commands to perform
@@ -25,6 +19,7 @@ import static java.lang.Integer.parseInt;
 public class DrawingApp {
 
     private Canvas canvas;
+    private CommandFactory cf = new CommandFactory();
 
     //Main App
     public static void main(String[] args) {
@@ -36,7 +31,6 @@ public class DrawingApp {
         }
     }
 
-
     /**
      * Parse user commands and apply accordingly
      * @param command issued by user
@@ -47,52 +41,12 @@ public class DrawingApp {
             return;
         }
 
-        Entry<AppFeature, List<String>> cmd = getFeatureType(command);
-        if(cmd == null) {
+        Command cmd = cf.getCommand(command);
+        if(cmd != null) {
+            this.canvas = cmd.execute(canvas);
+        } else {
             printUsage();
-            return;
         }
-
-        //Retrieve the operation and associated parameter values
-        AppFeature feature = cmd.getKey();
-        List<String> params = cmd.getValue();
-
-        //execute
-        switch(feature) {
-            case QUIT: quit();
-            case CREATE_CANVAS:
-                int width = parseInt(params.get(0));
-                int height = parseInt(params.get(1));
-                createCanvas(width,height);
-                break;
-            case LINE:
-                Point start = new Point(parseInt(params.get(0)), parseInt(params.get(1)));
-                Point end = new Point(parseInt(params.get(2)), parseInt(params.get(3)));
-                amend(new Line(canvas, start, end, 'x'));
-                break;
-            case RECT:
-                start = new Point(parseInt(params.get(0)), parseInt(params.get(1)));
-                end = new Point(parseInt(params.get(2)), parseInt(params.get(3)));
-                amend(new Rectangle(canvas, start, end, 'x'));
-                break;
-            case FILL:
-                start = new Point(parseInt(params.get(0)), parseInt(params.get(1)));
-                char fillSymbol = params.get(2).charAt(0);
-                amend(new BucketFill(canvas, start, fillSymbol));
-                break;
-            default:
-                System.out.println("Invalid command '"+command+ "'");;
-                break;
-        }
-    }
-
-    protected void createCanvas(int width, int height) {
-        this.canvas = new Canvas(width, height);
-    }
-
-    private void quit() {
-        System.out.println("Quitting application");
-        System.exit(0);
     }
 
     private void amend(DrawableComponent amendment) {
@@ -117,5 +71,9 @@ public class DrawingApp {
         System.out.println("   B x y c         -- fills the area of canvas connected to (x,y) with 'c'");
         System.out.println("   Q               -- quit the application");
         System.out.println();
+    }
+
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
     }
 }
