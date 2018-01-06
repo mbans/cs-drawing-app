@@ -2,7 +2,6 @@
   <component name="FileTypeManager" version="16">
     <extensionMap>
       <mapping pattern="Notes" type="PLAIN_TEXT" />
-      <mapping ext="yml" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>
