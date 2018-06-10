@@ -2,6 +2,7 @@
   <component name="FileTypeManager" version="16">
     <extensionMap>
       <mapping pattern="Notes" type="PLAIN_TEXT" />
+      <mapping pattern=".gitigore" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>
