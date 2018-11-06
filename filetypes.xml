@@ -3,6 +3,7 @@
     <extensionMap>
       <mapping pattern="Notes" type="PLAIN_TEXT" />
       <mapping pattern=".gitigore" type="PLAIN_TEXT" />
+      <mapping ext="me" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>
